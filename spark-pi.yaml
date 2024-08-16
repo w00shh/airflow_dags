@@ -1,20 +1,24 @@
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
-  name: pyspark-test
+  name: spark-pi
   namespace: default
 spec:
-  type: Python
-  pythonVersion: "3"
+  type: Scala
   mode: cluster
-  image: "apache/spark-py:latest"  # PySpark 이미지 경로
-  imagePullPolicy: Always
-  mainApplicationFile: "local:///opt/spark/examples/src/main/python/pi.py"
+  image: "gcr.io/spark-operator/spark:v3.1.1"
+  mainClass: org.apache.spark.examples.SparkPi
+  mainApplicationFile: "local:///opt/spark/examples/jars/spark-examples_2.12-3.1.1.jar"
   sparkVersion: "3.1.1"
   restartPolicy:
-    type: Never
+    type: OnFailure
+    onFailureRetries: 3
+    onFailureRetryInterval: 10
+    onSubmissionFailureRetries: 5
+    onSubmissionFailureRetryInterval: 20
   driver:
     cores: 1
+    coreLimit: "1200m"
     memory: "512m"
     labels:
       version: 3.1.1
@@ -25,3 +29,30 @@ spec:
     memory: "512m"
     labels:
       version: 3.1.1
+# apiVersion: "sparkoperator.k8s.io/v1beta2"
+# kind: SparkApplication
+# metadata:
+#   name: pyspark-test
+#   namespace: default
+# spec:
+#   type: Python
+#   pythonVersion: "3"
+#   mode: cluster
+#   image: "apache/spark-py:latest"  # PySpark 이미지 경로
+#   imagePullPolicy: Always
+#   mainApplicationFile: "local:///opt/spark/examples/src/main/python/pi.py"
+#   sparkVersion: "3.1.1"
+#   restartPolicy:
+#     type: Never
+#   driver:
+#     cores: 1
+#     memory: "512m"
+#     labels:
+#       version: 3.1.1
+#     serviceAccount: spark
+#   executor:
+#     cores: 1
+#     instances: 2
+#     memory: "512m"
+#     labels:
+#       version: 3.1.1
