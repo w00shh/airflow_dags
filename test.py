@@ -19,7 +19,7 @@ with DAG(
         name='spark-pi-job',
         namespace='airflow',
         image='bitnami/spark:latest',
-        cmds=['spark-submit', '--master', 'k8s://https://kubernetes.default.svc',
+        cmds=['spark-submit', '--master', 'k8s://kubernetes.default.svc',
               '--deploy-mode', 'cluster',
               '--class', 'org.apache.spark.examples.SparkPi',
               'local:///opt/spark/examples/jars/spark-examples_2.12-3.0.0.jar'],
