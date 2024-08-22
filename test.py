@@ -22,7 +22,7 @@ with DAG(
         cmds=['spark-submit', '--master', 'k8s://kubernetes.default.svc',
               '--deploy-mode', 'cluster',
               '--class', 'org.apache.spark.examples.SparkPi',
-              'local:///opt/spark/examples/jars/spark-examples_2.12-3.0.0.jar'],
+              'local:///opt/bitnami/spark/examples/jars/spark-examples_2.12-3.5.2.jar'],
         is_delete_operator_pod=True,
         in_cluster=True,
         get_logs=True,
